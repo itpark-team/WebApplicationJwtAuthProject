@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
+                expires: DateTime.UtcNow.AddSeconds(60),
                 signingCredentials: signIn);
 
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));

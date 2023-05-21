@@ -23,8 +23,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuer = true,
         ValidateAudience = true,
+        ValidateLifetime = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        LifetimeValidator = (before, expires, token, parameters) =>
+        {
+            // DateTime fixExpires = expires.Value;
+            // fixExpires = fixExpires.AddHours(3);
+            // bool result = fixExpires >= DateTime.Now;
+            return expires.Value >= DateTime.UtcNow;
+        },
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
